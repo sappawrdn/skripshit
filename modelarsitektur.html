@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Model Architecture Summary</title>
+  <style>
+    body {
+  font-family: "Inter", "Segoe UI", sans-serif;
+  margin: 40px;
+  background: white;
+  color: #2a2e35;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 48px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #123456;
+}
+
+h2 {
+  color: #1f3c88;
+  margin-top: 60px;
+  font-size: 22px;
+  border-left: 4px solid #1f3c88;
+  padding-left: 12px;
+}
+
+p {
+  margin-bottom: 16px;
+  font-size: 15.5px;
+  color: #444;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 48px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  border: 1px rgb(197, 196, 196) solid;
+}
+
+th {
+  background: #1f3c88;
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 14px;
+  letter-spacing: 0.4px;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+
+td {
+  padding: 13px 16px;
+  border-bottom: 1px solid #eee;
+  font-size: 20px;
+  color: #2a2e35;
+  vertical-align: top;
+}
+
+tr:hover {
+  background-color: #f5f9ff;
+}
+
+td:nth-child(2),
+td:nth-child(3) {
+  font-family: "Courier New", monospace;
+  color: #000000;
+}
+
+.section {
+  margin-bottom: 60px;
+}
+  </style>
+</head>
+<body>
+  <h1>Model Architecture Summary (Split View)</h1>
+
+  <div class="section">
+    <h2>Bagian 1 – Input Layer</h2>
+    <table>
+      <thead>
+        <tr><th>Layer (type)</th><th>Output Shape</th><th>Param #</th><th>Connected to</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>input_1 (InputLayer)</td><td>(None, 128, 9)</td><td>0</td><td>[]</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Bagian 2 – Temporal Convolution Block 1</h2>
+    <table>
+      <thead>
+        <tr><th>Layer (type)</th><th>Output Shape</th><th>Param #</th><th>Connected to</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>conv1d</td><td>(None, 128, 64)</td><td>1792</td><td>['input_1[0][0]']</td></tr>
+        <tr><td>activation</td><td>(None, 128, 64)</td><td>0</td><td>['conv1d[0][0]']</td></tr>
+        <tr><td>dropout</td><td>(None, 128, 64)</td><td>0</td><td>['activation[0][0]']</td></tr>
+        <tr><td>conv1d_1</td><td>(None, 128, 64)</td><td>12352</td><td>['dropout[0][0]']</td></tr>
+        <tr><td>activation_1</td><td>(None, 128, 64)</td><td>0</td><td>['conv1d_1[0][0]']</td></tr>
+        <tr><td>dropout_1</td><td>(None, 128, 64)</td><td>0</td><td>['activation_1[0][0]']</td></tr>
+        <tr><td>conv1d_2</td><td>(None, 128, 64)</td><td>640</td><td>['input_1[0][0]']</td></tr>
+        <tr><td>add</td><td>(None, 128, 64)</td><td>0</td><td>['dropout_1[0][0]', 'conv1d_2[0][0]']</td></tr>
+        <tr><td>layer_normalization</td><td>(None, 128, 64)</td><td>128</td><td>['add[0][0]']</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Bagian 3 – Temporal Convolution Block 2 & 3</h2>
+    <table>
+      <thead>
+        <tr><th>Layer (type)</th><th>Output Shape</th><th>Param #</th><th>Connected to</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>conv1d_3</td><td>(None, 128, 64)</td><td>12352</td><td>['layer_normalization[0][0]']</td></tr>
+        <tr><td>activation_2</td><td>(None, 128, 64)</td><td>0</td><td>['conv1d_3[0][0]']</td></tr>
+        <tr><td>dropout_2</td><td>(None, 128, 64)</td><td>0</td><td>['activation_2[0][0]']</td></tr>
+        <tr><td>conv1d_4</td><td>(None, 128, 64)</td><td>12352</td><td>['dropout_2[0][0]']</td></tr>
+        <tr><td>activation_3</td><td>(None, 128, 64)</td><td>0</td><td>['conv1d_4[0][0]']</td></tr>
+        <tr><td>dropout_3</td><td>(None, 128, 64)</td><td>0</td><td>['activation_3[0][0]']</td></tr>
+        <tr><td>add_1</td><td>(None, 128, 64)</td><td>0</td><td>['dropout_3[0][0]', 'layer_normalization[0][0]']</td></tr>
+        <tr><td>layer_normalization_1</td><td>(None, 128, 64)</td><td>128</td><td>['add_1[0][0]']</td></tr>
+        <tr><td>conv1d_5</td><td>(None, 128, 64)</td><td>12352</td><td>['layer_normalization_1[0][0]']</td></tr>
+        <tr><td>activation_4</td><td>(None, 128, 64)</td><td>0</td><td>['conv1d_5[0][0]']</td></tr>
+        <tr><td>dropout_4</td><td>(None, 128, 64)</td><td>0</td><td>['activation_4[0][0]']</td></tr>
+        <tr><td>conv1d_6</td><td>(None, 128, 64)</td><td>12352</td><td>['dropout_4[0][0]']</td></tr>
+        <tr><td>activation_5</td><td>(None, 128, 64)</td><td>0</td><td>['conv1d_6[0][0]']</td></tr>
+        <tr><td>dropout_5</td><td>(None, 128, 64)</td><td>0</td><td>['activation_5[0][0]']</td></tr>
+        <tr><td>add_2</td><td>(None, 128, 64)</td><td>0</td><td>['dropout_5[0][0]', 'layer_normalization_1[0][0]']</td></tr>
+        <tr><td>layer_normalization_2</td><td>(None, 128, 64)</td><td>128</td><td>['add_2[0][0]']</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Bagian 4 – Temporal Block 4 + Self-Attention</h2>
+    <table>
+      <thead>
+        <tr><th>Layer (type)</th><th>Output Shape</th><th>Param #</th><th>Connected to</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>conv1d_7</td><td>(None, 128, 64)</td><td>12352</td><td>['layer_normalization_2[0][0]']</td></tr>
+        <tr><td>activation_6</td><td>(None, 128, 64)</td><td>0</td><td>['conv1d_7[0][0]']</td></tr>
+        <tr><td>dropout_6</td><td>(None, 128, 64)</td><td>0</td><td>['activation_6[0][0]']</td></tr>
+        <tr><td>conv1d_8</td><td>(None, 128, 64)</td><td>12352</td><td>['dropout_6[0][0]']</td></tr>
+        <tr><td>activation_7</td><td>(None, 128, 64)</td><td>0</td><td>['conv1d_8[0][0]']</td></tr>
+        <tr><td>dropout_7</td><td>(None, 128, 64)</td><td>0</td><td>['activation_7[0][0]']</td></tr>
+        <tr><td>add_3</td><td>(None, 128, 64)</td><td>0</td><td>['dropout_7[0][0]', 'layer_normalization_2[0][0]']</td></tr>
+        <tr><td>layer_normalization_3</td><td>(None, 128, 64)</td><td>128</td><td>['add_3[0][0]']</td></tr>
+        <tr><td>self_attention</td><td>(None, 128, 64)</td><td>12480</td><td>['layer_normalization_3[0][0]']</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Bagian 5 – Output Block</h2>
+    <table>
+      <thead>
+        <tr><th>Layer (type)</th><th>Output Shape</th><th>Param #</th><th>Connected to</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>global_average_pooling1d</td><td>(None, 64)</td><td>0</td><td>['self_attention[0][0]']</td></tr>
+        <tr><td>dropout_8</td><td>(None, 64)</td><td>0</td><td>['global_average_pooling1d[0][0]']</td></tr>
+        <tr><td>dense_3</td><td>(None, 6)</td><td>390</td><td>['dropout_8[0][0]']</td></tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
